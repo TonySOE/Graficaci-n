@@ -13,43 +13,41 @@ img_width, img_height = 1000, 900
 # Crear una imagen en blanco
 imagen = np.zeros((img_height, img_width, 3), dtype=np.uint8)
 
-# Parámetros de las elipses (semieje mayor, semieje menor, desplazamiento en x, desplazamiento en y)
+# (x, y, desplazamiento en x, desplazamiento en y)
 elipses = [
     (0, 0, 500, 450),      # Elipse 1 (centro)
-    (150, 100, 500, 450),  # Elipse 2 (intercambiados)
-    (200, 150, 500, 450),  # Elipse 3 (intercambiados)
-    (250, 200, 500, 450),  # Elipse 4 (intercambiados)
-    (300, 250, 500, 450),  # Elipse 5 (intercambiados)
-    (350, 300, 500, 450),  # Elipse 6 (intercambiados)
-    (400, 350, 500, 450),  # Elipse 7 (intercambiados)
-    (450, 400, 500, 450),  # Elipse 8 (intercambiados)
-    (500, 450, 500, 450)   # Elipse 9 (intercambiados)
+    (150, 100, 500, 450),  # Elipse 2 
+    (450, 400, 500, 450),  # Elipse 8 
+    (200, 150, 500, 450),  # Elipse 3 
+    (250, 200, 500, 450),  # Elipse 4 
+    (300, 250, 500, 450),  # Elipse 5 
+    (500, 450, 500, 450)   # Elipse 9 
+    (350, 300, 500, 450),  # Elipse 6 
+    (400, 350, 500, 450),  # Elipse 7 
 ]
 
-# Definir los colores para cada círculo (en formato BGR)
 colores = [
-    (0, 255, 255),   # Amarillo para el centro (Elipse 1)
-    (42, 42, 165),   # Café para Elipse 2
-    (0, 0, 255),     # Rojo para Elipse 3
-    (0, 255, 0),     # Verde para Elipse 4
-    (42, 42, 165),   # Café para Elipse 5
-    (200, 190, 140), # Café claro para Elipse 6
-    (200, 190, 140), # Café claro para Elipse 7
-    (255, 0, 0),     # Azul para Elipse 8
-    (255, 0, 0)      # Azul para Elipse 9
+    (0, 255, 255),   # Amarillo (Elipse 1)
+    (42, 42, 165),   # Café  
+    (0, 0, 255),     # Rojo  
+    (0, 255, 0),     # Verde  
+    (42, 42, 165),   # Café  
+    (200, 190, 140), # Café claro 
+    (200, 190, 140), # Café claro 
+    (255, 0, 0),     # Azul  
+    (255, 0, 0)      # Azul  
 ]
 
-# Tamaños de los círculos
 tamanos = [
-    40,  # Grande para el círculo amarillo (centro)
-    10,  # Pequeño para Elipse 2
-    17,  # Mediano para Elipse 3
-    18,  # Mediano para Elipse 4
-    12,  # Mediano para Elipse 5
-    25,  # Grande para Elipse 6
-    23,  # Grande para Elipse 7
-    18,  # Mediano para Elipse 8
-    17   # Mediano para Elipse 9
+    40,  # Grande (Sol)
+    10,  # Pequeño 
+    17,  # Mediano 
+    18,  # Mediano 
+    12,  # Mediano 
+    25,  # Grande 
+    23,  # Grande 
+    18,  # Mediano 
+    17   # Mediano 
 ]
 
 num_puntos = 1000
@@ -77,7 +75,7 @@ for t in t_vals:
     cv2.imshow('img', imagen)
 
     # Controlar la velocidad de la animación (en milisegundos)
-    cv2.waitKey(10)
+    cv2.waitKey(40)
 
 # Cerrar la ventana después de la animación
 cv2.destroyAllWindows()
