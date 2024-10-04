@@ -6,7 +6,7 @@ width, height = 700, 500  # Tamaño del lienzo
 radio_pelota_1 = 25  # Radio de la primera pelota
 radio_pelota_2 = 20  # Radio de la segunda pelota
 color_pelota_1 = (255, 0, 255)  # Color de la primera pelota (fucsia)
-color_pelota_2 = (0, 255, 0)  # Color de la segunda pelota (verde)
+color_pelota_2 = (0, 255, 25)  # Color de la segunda pelota (verde)
 
 # Velocidades y direcciones de las pelotas
 x_velocidad_1 = np.random.choice([-5, 5])  # Velocidad aleatoria en X para pelota 1

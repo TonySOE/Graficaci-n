@@ -23,7 +23,7 @@ alto_amarillo = np.array([35, 255, 255])
 
 # Definir el rango de color azul en HSV
 bajo_azul = np.array([90, 40, 40])
-alto_azul = np.array([130, 255, 255])
+alto_azul = np.array([130, 255, 255]) 
 
 # Definir el rango de color magenta en HSV
 bajo_magenta = np.array([140, 40, 40])
