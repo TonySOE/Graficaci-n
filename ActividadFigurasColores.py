@@ -36,6 +36,18 @@ mascara_rojo1 = cv.inRange(imagen_hsv, rojo_bajo1, rojo_alto1)
 mascara_rojo2 = cv.inRange(imagen_hsv, rojo_bajo2, rojo_alto2)
 mascara_rojo = mascara_rojo1 + mascara_rojo2
 
+x, y = mascara_rojo.shape
+
+for i in range (x):
+    for j in range (y):
+        if(mascara_rojo [i, j] == 0):
+            mascara_rojo [i, j] = 150
+        else:
+            mascara_rojo [i, j] = 180
+        cv.waitKey(0)
+        cv.destroyAllWindows()
+        
+        
 # Crear máscaras para los demás colores
 mascara_verde = cv.inRange(imagen_hsv, verde_bajo, verde_alto)
 mascara_amarillo = cv.inRange(imagen_hsv, amarillo_bajo, amarillo_alto)
@@ -49,25 +61,11 @@ mascara_magenta = cv.inRange(imagen_hsv, magenta_bajo, magenta_alto)
 # res_azul = cv.bitwise_and(imagen, imagen, mask=mascara_azul)
 # res_magenta = cv.bitwise_and(imagen, imagen, mask=mascara_magenta)
 
+
+
 # Mostrar las imágenes con los colores resaltados
 cv.imshow('Color Rojo Resaltado', mascara_rojo)
 cv.imshow('Color Verde Resaltado', mascara_verde)
 cv.imshow('Color Amarillo Resaltado', mascara_amarillo)
 cv.imshow('Color Azul Resaltado', mascara_azul)
 cv.imshow('Color Magenta Resaltado', mascara_magenta)
-
-def contar_figuras(mascara):
-    # Obtener el tamaño de la imagen (filas y columnas)
-    filas, columnas = mascara.shape
-    
-    # Inicializar contador de figuras
-    contadorFiguras = 0
-    
-    # Recorrer la imagen de arriba hacia abajo y de izquierda a derecha
-    for col in range(columnas):
-        for fila in range(filas):
-            # Verificar si el píxel es 255 (parte de una figura)
-            if mascara[fila, col] == 255:
-
-cv.waitKey(0)
-cv.destroyAllWindows()
