@@ -2,13 +2,19 @@ import cv2
 import numpy as np
 
 # Cargar la máscara que deseas agregar (asegúrate de que sea PNG con transparencia)
-mascara = cv2.imread('gas3.png', cv2.IMREAD_UNCHANGED)  # Cargar PNG con transparencia
+mascara = cv2.imread('gas4.png', cv2.IMREAD_UNCHANGED)  # Cargar PNG con transparencia
 
 # Cargar el clasificador preentrenado de rostros
 face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_alt2.xml')
 
 # Capturar video desde la cámara (o puedes usar un archivo de video)
 video = cv2.VideoCapture(0)  # Cambia el 0 por la ruta de un archivo de video si quieres usar un archivo
+
+# Factor de escala para agrandar la máscara
+factor_escala = 1.6  # Puedes ajustar este valor para cambiar el tamaño de la máscara
+
+# Desplazamiento en píxeles hacia arriba
+desplazamiento_vertical = 80  # Ajusta este valor según necesites
 
 while True:
     # Leer cada frame del video
@@ -25,15 +31,27 @@ while True:
 
     # Procesar cada rostro detectado
     for (x, y, w, h) in rostros:
-        # Redimensionar la máscara para que coincida con el tamaño del rostro detectado 
-        mascara_redimensionada = cv2.resize(mascara, (w, h))
+        # Calcular las nuevas dimensiones de la máscara según el factor de escala
+        nuevo_ancho = int(w * factor_escala)
+        nuevo_alto = int(h * factor_escala)
+
+        # Redimensionar la máscara para que sea más grande o más pequeña según el factor de escala
+        mascara_redimensionada = cv2.resize(mascara, (nuevo_ancho, nuevo_alto))
 
         # Separar los canales de la máscara: color y alfa (transparencia)
         mascara_rgb = mascara_redimensionada[:, :, :3]  # Canal de color
         mascara_alpha = mascara_redimensionada[:, :, 3]  # Canal de transparencia
 
+        # Ajustar las coordenadas (x, y) para centrar la máscara sobre el rostro
+        x_offset = x - (nuevo_ancho - w) // 2
+        y_offset = y - (nuevo_alto - h) // 2 - desplazamiento_vertical  # Desplazar 50 píxeles hacia arriba
+
+        # Asegurarse de que las coordenadas estén dentro del marco
+        if y_offset < 0:
+            y_offset = 0
+
         # Crear una región de interés (ROI) en el frame donde colocaremos la máscara
-        roi = frame[y:y+h, x:x+w]
+        roi = frame[y_offset:y_offset+nuevo_alto, x_offset:x_offset+nuevo_ancho]
 
         # Invertir la máscara alfa para obtener la parte del rostro donde se aplicará la máscara
         mascara_alpha_inv = cv2.bitwise_not(mascara_alpha)
@@ -48,7 +66,7 @@ while True:
         resultado = cv2.add(fondo, mascara_fg)
 
         # Reemplazar la región del rostro con la imagen combinada
-        frame[y:y+h, x:x+w] = resultado
+        frame[y_offset:y_offset+nuevo_alto, x_offset:x_offset+nuevo_ancho] = resultado
 
     # Mostrar el frame con la máscara aplicada
     cv2.imshow('Video con mascara', frame)
