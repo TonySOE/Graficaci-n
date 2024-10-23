@@ -1,13 +1,23 @@
 import cv2
 import numpy as np
 
-# Cargar la máscara que deseas agregar (asegúrate de que sea PNG con transparencia)
-mascara = cv2.imread('300a.png', cv2.IMREAD_UNCHANGED)  # Cargar PNG con transparencia
+# Cargar las máscaras que deseas agregar (asegúrate de que sean PNG con transparencia)
+mascaras = [
+    cv2.imread('mascara.png', cv2.IMREAD_UNCHANGED),
+    cv2.imread('bigote.png', cv2.IMREAD_UNCHANGED),
+    cv2.imread('cubrebocas.png', cv2.IMREAD_UNCHANGED),
+    cv2.imread('sombrero.png', cv2.IMREAD_UNCHANGED),
+    cv2.imread('lentes.png', cv2.IMREAD_UNCHANGED)
+]
 
-# Verificar si la imagen tiene un canal alfa
-if mascara.shape[2] != 4:
-    print("Error: La imagen no tiene canal alfa.")
-    exit()
+# Verificar si todas las imágenes tienen canal alfa
+for i, mascara in enumerate(mascaras):
+    if mascara is None or mascara.shape[2] != 4:
+        print(f"Error: La máscara {i+1} no tiene canal alfa o no pudo ser cargada.")
+        exit()
+
+# Inicialmente selecciona la primera máscara
+mascara_actual = mascaras[0]
 
 # Cargar el clasificador preentrenado de rostros
 face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_alt2.xml')
@@ -16,8 +26,8 @@ face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_alt2.xml')
 video = cv2.VideoCapture(0)
 
 # Definir un desplazamiento para mover la máscara
-desplazamiento_x = 0  # Mover 50 píxeles hacia la derecha
-desplazamiento_y = 60  # Mover 30 píxeles hacia arriba
+desplazamiento_x = 0  # Mover píxeles hacia la derecha
+desplazamiento_y = 60  # Mover píxeles hacia arriba
 
 while True:
     # Leer cada frame del video
@@ -34,8 +44,8 @@ while True:
 
     # Procesar cada rostro detectado
     for (x, y, w, h) in rostros:
-        # Redimensionar la máscara para que coincida con el tamaño del rostro detectado
-        mascara_redimensionada = cv2.resize(mascara, (w, h))
+        # Redimensionar la máscara seleccionada para que coincida con el tamaño del rostro detectado
+        mascara_redimensionada = cv2.resize(mascara_actual, (w, h))
 
         # Separar los canales de la máscara: color y alfa (transparencia)
         mascara_rgb = mascara_redimensionada[:, :, :3]
@@ -80,8 +90,24 @@ while True:
     # Mostrar el frame con la máscara aplicada
     cv2.imshow('Video con mascara', frame)
 
-    # Presionar 'q' para salir del loop
-    if cv2.waitKey(1) & 0xFF == ord('q'):
+    # Capturar la tecla presionada y cambiar la máscara según el número (1-5)
+    key = cv2.waitKey(1) & 0xFF
+    if key == ord('1'):
+        print("Cambiando a la máscara 1")
+        mascara_actual = mascaras[0]
+    elif key == ord('2'):
+        print("Cambiando a la máscara 2")
+        mascara_actual = mascaras[1]
+    elif key == ord('3'):
+        print("Cambiando a la máscara 3")
+        mascara_actual = mascaras[2]
+    elif key == ord('4'):
+        print("Cambiando a la máscara 4")
+        mascara_actual = mascaras[3]
+    elif key == ord('5'):
+        print("Cambiando a la máscara 5")
+        mascara_actual = mascaras[4]
+    elif key == ord('q'):
         break
 
 # Liberar la captura de video y cerrar las ventanas
