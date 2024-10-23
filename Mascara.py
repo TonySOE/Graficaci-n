@@ -4,6 +4,11 @@ import numpy as np
 # Cargar la máscara que deseas agregar (asegúrate de que sea PNG con transparencia)
 mascara = cv2.imread('gas4.png', cv2.IMREAD_UNCHANGED)  # Cargar PNG con transparencia
 
+# Verificar si la imagen tiene un canal alfa
+if mascara.shape[2] != 4:
+    print("Error: La imagen no tiene canal alfa.")
+    exit()
+
 # Cargar el clasificador preentrenado de rostros
 face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_alt2.xml')
 
@@ -14,7 +19,7 @@ video = cv2.VideoCapture(0)  # Cambia el 0 por la ruta de un archivo de video si
 factor_escala = 1.6  # Puedes ajustar este valor para cambiar el tamaño de la máscara
 
 # Desplazamiento en píxeles hacia arriba
-desplazamiento_vertical = 80  # Ajusta este valor según necesites
+desplazamiento_vertical = 10  # Ajusta este valor según necesites
 
 while True:
     # Leer cada frame del video
