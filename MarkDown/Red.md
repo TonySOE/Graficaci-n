@@ -184,6 +184,6 @@ while True:
 
 cap.release()
 cv.destroyAllWindows()
-```
+```  
 
 ![Distacia](Imagenes/DistanciaRed.png)  
