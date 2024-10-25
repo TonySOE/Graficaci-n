@@ -68,9 +68,9 @@ cv.destroyAllWindows()
 
 **Segundo Ejercicio**
 
-2.1. Rotar 30 a la derecha
-2.2. Rotar 60 a la izquierda
-2.3. Escalar 2
+2.1. Rotar 30 a la derecha  
+2.2. Rotar 60 a la izquierda  
+2.3. Escalar 2  
 
 ```python
 import cv2 as cv
@@ -131,9 +131,9 @@ cv.destroyAllWindows()
 
 **Tercer Ejercicio**
 
-3.1. Rotar 70
-3.2. Escalar 2
-3.3. Trasladar 20px
+3.1. Rotar 70  
+3.2. Escalar 2  
+3.3. Trasladar 20px  
 
 ```python
 import cv2 as cv
