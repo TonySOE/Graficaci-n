@@ -2,7 +2,7 @@
 
 ## Instrucciones
 
-Programar al menos 10 ecuaciones paramétricas.  
+Programar al menos 10 ecuaciones paramétricas y modificar 1 vez la ecuación.
 
 No se insertarán todos los códigos, debido a que es lo mismo, solo se dirá qué valor de K se utilizó para cada imagen.  
 
@@ -125,7 +125,7 @@ K = 25
 
 ![k=25](Imagenes/k%20=%2025.png)  
 
-**Ecuación extra: Espiral de Arquímedes**  
+**Ecuación modificada: Espiral de Arquímedes**  
 
 ```python
 import numpy as np
