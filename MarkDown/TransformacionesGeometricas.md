@@ -14,9 +14,9 @@ Aplicar las transformaciones geométricas vistas en clase.
 
 **Primer Ejercicio**
 
-1.1. Rotar 60	\n	
-1.2. Trasladar 10px \n
-1.3. Escalar 1/5 \n
+1.1. Rotar 60  
+1.2. Trasladar 10px  
+1.3. Escalar 1/5  
 
 ```python
 import cv2 as cv
