@@ -24,7 +24,7 @@ amarillo_alto = (35, 255, 255)
 
 # Rango para azul
 azul_bajo = (87, 40, 40)
-azul_alto = (130, 255, 255)
+azul_alto = (127, 255, 255)
 
 # Rango para magenta
 magenta_bajo = (140, 40, 40)
@@ -60,8 +60,6 @@ mascara_magenta = cv.inRange(imagen_hsv, magenta_bajo, magenta_alto)
 # res_amarillo = cv.bitwise_and(imagen, imagen, mask=mascara_amarillo)
 # res_azul = cv.bitwise_and(imagen, imagen, mask=mascara_azul)
 # res_magenta = cv.bitwise_and(imagen, imagen, mask=mascara_magenta)
-
-
 
 # Mostrar las imágenes con los colores resaltados
 cv.imshow('Color Rojo Resaltado', mascara_rojo)
