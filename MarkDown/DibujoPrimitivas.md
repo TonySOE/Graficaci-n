@@ -48,7 +48,7 @@ pts = np.array([[200, 600], [500, 180], [600, 600]], np.int32)
 pts = pts.reshape((-1, 1, 2))
 cv.fillPoly(img, [pts], (21, 28, 8))
 
-# Círculo del sol
+# Círculo del sol  
 cv.circle(img, (10, 0), 200, (0, 190, 255), -1)
 
 ## Nube centro
