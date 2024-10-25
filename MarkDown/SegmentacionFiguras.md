@@ -78,7 +78,7 @@ cv.imshow('Color Magenta Resaltado', res_magenta)
 cv.waitKey(0)
 cv.destroyAllWindows()
 ```  
-
+  
 **Segmentacion rojo**  
   
 ![Segmentacion rojo](Imagenes/Figuras%20rojo.png)  
