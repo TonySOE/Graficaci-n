@@ -1,3 +1,10 @@
+# Actividad 5
+
+## Instrucciones
+
+Crear un dibujo mediante primitivas de dibujo utilizando OpenCV.
+
+```python
 import cv2 as cv
 import numpy as np
 
@@ -98,3 +105,7 @@ cv.line(img, (308, 475), (312, 475), (0, 0, 0), 2)       # Boca
 cv.imshow('Dibujo', img)
 cv.waitKey()
 cv.destroyAllWindows
+```
+
+**Dibujo usando primitivas**  
+![Dibujo usando primitivas](Imagenes/DibujoPrimitivo.png)
