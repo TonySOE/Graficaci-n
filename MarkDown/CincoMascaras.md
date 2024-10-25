@@ -1,3 +1,10 @@
+# Actividad 15
+
+## Instrucciones
+
+Realiza utilizar los recursos de haarcascade y usar 5 mediante un switch.  
+
+```python
 import cv2
 import numpy as np
 
@@ -132,3 +139,24 @@ while True:
 # Liberar la captura de video y cerrar las ventanas
 video.release()
 cv2.destroyAllWindows()
+```  
+  
+**Máscara**  
+  
+![Mascara](Imagenes/MascaraAmarilla.png)  
+  
+**Bigote**  
+  
+![Bigote](Imagenes/Bigote.png)  
+  
+**Cubrebocas**  
+  
+![Cubrebocas](Imagenes/Cubrebocas.png)  
+  
+**Sombrero**  
+  
+![Sombrero](Imagenes/Sombrero.png)  
+  
+**Lentes**  
+  
+![Lentes](Imagenes/Lentes.png)  
