@@ -19,15 +19,20 @@ for i, mascara in enumerate(mascaras):
 # Inicialmente selecciona la primera máscara
 mascara_actual = mascaras[0]
 
+# Definir desplazamientos individuales para cada máscara
+desplazamientos_x = [0, 50, 0, 0, -5]  # Desplazamiento en x para cada máscara
+desplazamientos_y = [10, 100, 70, -50, 20]  # Desplazamiento en y para cada máscara
+
+# Definir la máscara seleccionada inicialmente y los desplazamientos correspondientes
+indice_mascara_actual = 0
+desplazamiento_x = desplazamientos_x[indice_mascara_actual]
+desplazamiento_y = desplazamientos_y[indice_mascara_actual]
+
 # Cargar el clasificador preentrenado de rostros
 face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_alt2.xml')
 
 # Capturar video desde la cámara
 video = cv2.VideoCapture(0)
-
-# Definir un desplazamiento para mover la máscara
-desplazamiento_x = 0  # Mover píxeles hacia la derecha
-desplazamiento_y = 60  # Mover píxeles hacia arriba
 
 while True:
     # Leer cada frame del video
