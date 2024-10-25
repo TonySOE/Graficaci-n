@@ -30,7 +30,7 @@ cv.destroyAllWindows()
 **Imagen en blanco y negro**
 ![Imagen en blanco y negro](Imagenes/BYN.png)
 
-**Imagen 1: Negavita**
+**Imagen 1**
 ![Operador 1](Imagenes/OP1.png)
 
 **Segundo Operador**
