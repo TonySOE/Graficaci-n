@@ -51,4 +51,4 @@ cv.destroyAllWindows()
   
 **Carita dibujada**  
 
-![Carita](Imagenes/DistanciaRed.png)  
+![Carita](Imagenes/FlujoOptico.png)  
