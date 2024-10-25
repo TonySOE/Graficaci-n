@@ -79,4 +79,3 @@ cv.destroyAllWindows()
 ```  
   
 ![Pelota](Imagenes/PelotaMovimiento.png)  
-
