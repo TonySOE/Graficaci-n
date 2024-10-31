@@ -12,83 +12,78 @@ x, y = img.shape
 scale_x, scale_y = 2, 2
 
 # Crear una nueva imagen para almacenar el escalado
-scaled_img = np.zeros((int(x * scale_y), int(y * scale_x)), dtype=np.uint8)
+img_escalada = np.zeros((int(x * scale_y), int(y * scale_x)), dtype=np.uint8)
 
 # Aplicar el escalado
 for i in range(x):
     for j in range(y):
-        scaled_img[i*2, j*2] = img[i, j]
-        
-# Definir el filtro convolucional 3x3 y normalizarlo
-convolution_matrix = np.array([[1, 2, 1],
+        img_escalada[i*2, j*2] = img[i, j]
+
+# Definir la matriz de convolución 3x3 y normalizarla
+matriz_convolucion = np.array([[1, 2, 1],
                                [2, 4, 2],
                                [1, 2, 1]], dtype=np.float32) / 16
 
-filtered_img = np.zeros_like(scaled_img)
+# Imagen para almacenar el resultado de la convolución 3x3
+convolucion1 = np.zeros_like(img_escalada)
 
-# Definir los vectores del filtro de convolución (1D)
-vector_vertical = np.array([1, 2, 1], dtype=np.float32) / 4  # Normalizar dividiendo por 4
-vector_horizontal = np.array([1, 2, 1], dtype=np.float32) / 4  # Normalizar dividiendo por 4
+# Definir los vectores de convolución para el filtro separable (1D) y normalizar
+vector_vertical = np.array([1, 2, 1], dtype=np.float32) / 4
+vector_horizontal = np.array([1, 2, 1], dtype=np.float32) / 4
 
-# Crear una imagen temporal para almacenar el resultado de la convolución vertical
-temp_img = np.zeros_like(scaled_img)
+# Imagen temporal para almacenar el resultado de la convolución vertical (para filtro separable)
+imagen_temporal = np.zeros_like(img_escalada)
+convolucion2 = np.zeros_like(img_escalada)  # Para almacenar el resultado final del filtro separable
 
-# Iniciar el tiempo de procesamiento
+# Tiempo de inicio para la convolución separable
 tiempo1 = time.time()
 
-# Aplicar el filtro vertical
-for i in range(1, scaled_img.shape[0] - 1):
-    for j in range(scaled_img.shape[1]):
-        temp_img[i, j] = (
-            scaled_img[i - 1, j] * vector_vertical[0] +
-            scaled_img[i, j] * vector_vertical[1] +
-            scaled_img[i + 1, j] * vector_vertical[2]
+# Aplicar el filtro separable: convolución vertical
+for i in range(1, img_escalada.shape[0] - 1):
+    for j in range(img_escalada.shape[1]):
+        imagen_temporal[i, j] = (
+            img_escalada[i - 1, j] * vector_vertical[0] +
+            img_escalada[i, j] * vector_vertical[1] +
+            img_escalada[i + 1, j] * vector_vertical[2]
         )
 
-# Crear una nueva imagen para almacenar el resultado del filtro completo (vertical + horizontal)
-filtered2_img = np.zeros_like(scaled_img)
-
-# Aplicar el filtro horizontal sobre la imagen temporal
-for i in range(temp_img.shape[0]):
-    for j in range(1, temp_img.shape[1] - 1):
-        filtered2_img[i, j] = np.clip(
-            temp_img[i, j - 1] * vector_horizontal[0] +
-            temp_img[i, j] * vector_horizontal[1] +
-            temp_img[i, j + 1] * vector_horizontal[2],
+# Aplicar el filtro separable: convolución horizontal sobre temp_img
+for i in range(imagen_temporal.shape[0]):
+    for j in range(1, imagen_temporal.shape[1] - 1):
+        convolucion2[i, j] = np.clip(
+            imagen_temporal[i, j - 1] * vector_horizontal[0] +
+            imagen_temporal[i, j] * vector_horizontal[1] +
+            imagen_temporal[i, j + 1] * vector_horizontal[2],
             0, 255
         )
 
+# Tiempo final para la convolución separable
+tiempo2 = time.time()
 
-
-# Iniciar el tiempo de procesamiento
+# Tiempo de inicio para la convolución completa 3x3
 tiempo3 = time.time()
 
-# Aplicar el filtro convolucional 3x3
-for i in range(1, scaled_img.shape[0] - 1):
-    for j in range(1, scaled_img.shape[1] - 1):
-        # Aplicar el filtro tomando los vecinos y multiplicando por la matriz de convolución
-        region = scaled_img[i-1:i+2, j-1:j+2]
-        filtered_value = np.sum(region * convolution_matrix)
-        # Asignar el valor convolucionado al píxel de la imagen filtrada, aplicando clip para mantener entre 0 y 255
-        filtered_img[i, j] = np.clip(filtered_value, 0, 255)
+# Aplicar la convolución completa 3x3
+for i in range(1, img_escalada.shape[0] - 1):
+    for j in range(1, img_escalada.shape[1] - 1):
+        # Obtener la región de vecinos 3x3
+        region = img_escalada[i-1:i+2, j-1:j+2]
+        # Calcular el valor convolucionado con la matriz 3x3
+        valor_convolucionado = np.sum(region * matriz_convolucion)
+        # Asignar el valor al píxel correspondiente en filtered_img
+        convolucion1[i, j] = np.clip(valor_convolucionado, 0, 255)
 
-# Finalizar el tiempo de procesamiento
+# Tiempo final para la convolución completa 3x3
 tiempo4 = time.time()
 
+# Resultados de tiempo
+print("Tiempo total 2 vectores:", tiempo2 - tiempo1)
+print("Tiempo total matriz 3x3:", tiempo4 - tiempo3)
 
-# Finalizar el tiempo de procesamiento
-tiempo2 = time.time()
-print("Tiempo separable de inicio:", tiempo1)
-print("Tiempo de fin:", tiempo2)
-print("Tiempo total:", tiempo2 - tiempo1)
-
-print("Tiempo matrizde inicio:", tiempo3)
-print("Tiempo de fin:", tiempo4)
-print("Tiempo total:", tiempo4 - tiempo3)
-
-# Mostrar la imagen original, la imagen escalada y la imagen filtrada
+# Mostrar las imágenes: original, escalada, y filtradas (separable y completa)
 cv.imshow('Imagen Original', img)
-cv.imshow('Imagen Escalada', scaled_img)
-cv.imshow('Imagen Filtrada', filtered2_img)
+cv.imshow('Imagen Escalada', img_escalada)
+cv.imshow('Imagen Filtrada - Convolución Separable', convolucion2)
+cv.imshow('Imagen Filtrada - Convolución Completa', convolucion1)
 cv.waitKey(0)
 cv.destroyAllWindows()
