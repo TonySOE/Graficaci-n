@@ -1,30 +1,34 @@
 import glfw
 from OpenGL.GL import *
-from OpenGL.GLU import gluNewQuadric, gluPerspective, gluLookAt, gluCylinder, gluSphere
+from OpenGL.GLU import gluPerspective, gluLookAt
 import sys
+
+camera_x, camera_y, camera_z = 10, 8, 15
+look_at_x, look_at_y, look_at_z = 0, 0, 0
+speed = 0.5
 
 def init():
     """Configuración inicial de OpenGL"""
-    glClearColor(0.5, 0.8, 1.0, 1.0)
-    glEnable(GL_DEPTH_TEST)
+    glClearColor(0.5, 0.8, 1.0, 1.0)  # Fondo azul cielo
+    glEnable(GL_DEPTH_TEST)           # Activar prueba de profundidad
+
+    # Configuración de la perspectiva
     glMatrixMode(GL_PROJECTION)
-    glLoadIdentity()
-    gluPerspective(60, 1.0, 0.1, 100.0)
+    gluPerspective(60, 1, 6, 100.0)  # Campo de visión más amplio
     glMatrixMode(GL_MODELVIEW)
-    glLoadIdentity()
 
 def draw_cube():
     """Dibuja el cubo (base de la casa)"""
     glBegin(GL_QUADS)
     glColor3f(0.8, 0.5, 0.2)  # Marrón para todas las caras
 
-    # Frente    x, y, z
+    # Frente
     glVertex3f(-1, 0, 1)
     glVertex3f(1, 0, 1)
     glVertex3f(1, 5, 1)
     glVertex3f(-1, 5, 1)
 
-    # Atrás
+    # Atrás     X  Y   Z
     glVertex3f(-1, 0, -1)
     glVertex3f(1, 0, -1)
     glVertex3f(1, 5, -1)
@@ -51,40 +55,11 @@ def draw_cube():
 
     # Abajo
     glColor3f(0.6, 0.4, 0.2)  # Suelo más oscuro
-    glVertex3f(-1, 0, -1)
+    glVertex3f(-1,0 , -1)
     glVertex3f(1, 0, -1)
     glVertex3f(1, 0, 1)
     glVertex3f(-1, 0, 1)
     glEnd()
-    
-def draw_window():
-    """Dibuja el cubo (base de la casa)"""
-    glBegin(GL_QUADS)
-    glColor3f(0.0, 0.0, 0.0)  # Marrón para todas las caras
-
-    # Frente    x, y, z
-    glVertex3f(-0.5, 2, 1)
-    glVertex3f(0.5, 2, 1)
-    glVertex3f(0.5, 4, 1)
-    glVertex3f(-0.5, 4, 1)
-
-    # Atrás
-    glVertex3f(-0.5, 2, -1)
-    glVertex3f(0.5, 2, -1)
-    glVertex3f(0.5, 4, -1)
-    glVertex3f(-0.5, 4, -1)
-
-    # Izquierda
-    glVertex3f(-1, 2, -0.5)
-    glVertex3f(-1, 2, 0.5)
-    glVertex3f(-1, 4, 0.5)
-    glVertex3f(-1, 4, -0.5)
-
-    # Derecha
-    glVertex3f(1, 2, -0.5)
-    glVertex3f(1, 2, 0.5)
-    glVertex3f(1, 4, 0.5)
-    glVertex3f(1, 4, -0.5)
 
 def draw_roof():
     """Dibuja el techo (pirámide)"""
@@ -94,24 +69,23 @@ def draw_roof():
     # Frente
     glVertex3f(-1, 5, 1)
     glVertex3f(1, 5, 1)
-    glVertex3f(0, 6, 0)
+    glVertex3f(0, 9, 0)
 
-    # Atrás
+    # Atrás     x  y   z 
     glVertex3f(-1, 5, -1)
     glVertex3f(1, 5, -1)
-    glVertex3f(0, 6, 0)
+    glVertex3f(0, 9, 0)
 
     # Izquierda
     glVertex3f(-1, 5, -1)
     glVertex3f(-1, 5, 1)
-    glVertex3f(0, 6, 0)
+    glVertex3f(0, 9, 0)
 
     # Derecha
     glVertex3f(1, 5, -1)
     glVertex3f(1, 5, 1)
-    glVertex3f(0, 6, 0)
+    glVertex3f(0, 9, 0)
     glEnd()
-    
 
 def draw_ground():
     """Dibuja un plano para representar el suelo o calle"""
@@ -128,19 +102,34 @@ def draw_ground():
 def draw_house():
     """Dibuja una casa (base + techo)"""
     draw_cube()  # Base de la casa
-    draw_roof()  # Techo
-    draw_snowman()
-    draw_window()
+    draw_roof()  # Techos   
+
+def key_callback(window, key, scancode, action, mods):
+    """Procesa las entradas de teclado para mover la cámara"""
+    global camera_x, camera_y, camera_z, speed
+
+    if action == glfw.PRESS or action == glfw.REPEAT:
+        if key == glfw.KEY_UP:
+            camera_y += speed  # Mover la cámara hacia arriba
+        elif key == glfw.KEY_DOWN:
+            camera_y -= speed  # Mover la cámara hacia abajo
+        elif key == glfw.KEY_LEFT:
+            camera_x -= speed  # Mover la cámara a la izquierda
+        elif key == glfw.KEY_RIGHT:
+            camera_x += speed  # Mover la cámara a la derecha
+        elif key == glfw.KEY_W:
+            camera_z -= speed  # Acercar la cámara (adelante)
+        elif key == glfw.KEY_S:
+            camera_z += speed  # Alejar la cámara (atrás)
 
 def draw_scene():
     """Dibuja toda la escena con 4 casas"""
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
     glLoadIdentity()
-
-    # Configuración de la cámara
-    gluLookAt(10, 8, 15,  # Posición de la cámara
-              0, 0, 0,    # Punto al que mira
-              0, 1, 0)    # Vector hacia arriba
+    
+    gluLookAt(camera_x, camera_y, camera_z,  # Posición de la cámara
+              look_at_x, look_at_y, look_at_z,  # Punto al que mira
+              0, 1, 0)  # Vector hacia arriba
 
     # Dibujar el suelo
     draw_ground()
@@ -150,9 +139,10 @@ def draw_scene():
         (-5, 0, -5),  # Casa 1
         (5, 0, -5),   # Casa 2
         (-5, 0, 5),   # Casa 3
-        (5, 0, 5)     # Casa 4
+        (5, 0, 5),
+        (0, 0, 0),
+        
     ]
-    
     for pos in positions:
         glPushMatrix()
         glTranslatef(*pos)  # Mover la casa a la posición actual
@@ -160,38 +150,6 @@ def draw_scene():
         glPopMatrix()
 
     glfw.swap_buffers(window)
-    
-def draw_sphere(radius=1, x=0, y=0, z=0):
-    glPushMatrix()
-    glTranslatef(x, y, z)
-    quadric = gluNewQuadric()
-    gluSphere(quadric, radius, 32, 32)
-    gluDeleteQuadric(quadric)
-    glPopMatrix()
-
-def draw_cone(base=0.1, height=0.5, x=0, y=0, z=0):
-    glPushMatrix()
-    glTranslatef(x, y, z)
-    glRotatef(-90, 1, 0, 0)  # Orientar el cono hacia adelante
-    quadric = gluNewQuadric()
-    gluCylinder(quadric, base, 0, height, 32, 32)
-    glPopMatrix()
-
-def draw_snowman():
-    glPushMatrix()
-    glTranslatef(0.0, 0.5, -8)
-    # Dibujar el muñeco de nieve
-    glColor3f(1, 1, 1)
-    draw_sphere(1.0, 0, 0, 0)
-    draw_sphere(0.75, 0, 1.2, 0)
-    draw_sphere(0.5, 0, 2.2, 0)
-    # Ojos y nariz
-    glColor3f(0, 0, 0)
-    draw_sphere(0.05, -0.15, 2.3, 0.4)
-    draw_sphere(0.05, 0.15, 2.3, 0.4)
-    glColor3f(1, 0.5, 0)
-    draw_cone(0.05, 0.2, 0, 2.2, 0.5)
-    glPopMatrix()
 
 def main():
     global window
@@ -208,6 +166,7 @@ def main():
         sys.exit()
 
     glfw.make_context_current(window)
+    glfw.set_key_callback(window, key_callback)  # Registrar el callback de teclado
     glViewport(0, 0, width, height)
     init()
 
