@@ -1,4 +1,4 @@
-# Proyecto Individual
+# Proyecto Grupal
 
 ## Instrucciones
 
