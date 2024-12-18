@@ -12,6 +12,8 @@ Se debe hacer un mapeo con una figura bidimensional (triángulo, cuadrado o cír
 
 ![Camara](Imagenes/Camara.png)
 
+**Código del proyecto**
+
 ```python
 import cv2 as cv
 import numpy as np
