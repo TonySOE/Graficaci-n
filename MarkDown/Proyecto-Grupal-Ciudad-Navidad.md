@@ -6,7 +6,7 @@ Al igual que el proyecto individual, se debe de realizar un proyecto que escale 
 
 **Imagen del Mapa**
 
-![Ciudad](Imagenes/Ciudad.png.png)
+![Ciudad](Imagenes/Ciudad.png)
 
 **Imagen de la cámara con puntos**
 
