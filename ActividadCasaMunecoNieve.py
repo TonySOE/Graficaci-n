@@ -166,7 +166,6 @@ def draw_sphere(radius=1, x=0, y=0, z=0):
     glTranslatef(x, y, z)
     quadric = gluNewQuadric()
     gluSphere(quadric, radius, 32, 32)
-    gluDeleteQuadric(quadric)
     glPopMatrix()
 
 def draw_cone(base=0.1, height=0.5, x=0, y=0, z=0):
